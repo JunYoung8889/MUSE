@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ person.username }}의 프로필 페이지</h1>
+  {% with followings=person.followings.all followers=person.followers.all %}
+    <div>
+      <div>
+        팔로잉 : {{ followings|length }} / 팔로워 : {{ followers|length }}
+      </div>
+      {% if request.user != person %}
+        <div>
+          <form action="{% url 'accounts:follow' person.pk %}" method="POST">
+            {% csrf_token %}
+            {% if request.user in followers %}
+              <button id="followBtn">언팔로우</button>
+            {% else %}
+              <button id="followBtn">팔로우</button>
+            {% endif %}
+          </form>
+        </div>
+      {% endif %}
+      <div>
+        <h3>내가 팔로우한 유저 목록</h3>
+        {% for following in followings %}
+          <p>{{ following.username }}</p>
+        {% endfor %}
+        <hr>
+        <h3>나를 팔로우한 유저 목록</h3>
+        {% for follower in followers %}
+          <p>{{ follower.username }}</p>
+        {% endfor %}
+      </div>
+    </div>
+  {% endwith %}
+
+{% endblock content %}
