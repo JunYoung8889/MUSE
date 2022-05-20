@@ -71,11 +71,18 @@
       - 좋아요 누른 영화목록 (제목으로 표시, 제목을 누르면 세부사항 페이지로 이동)
 - 디자인
   - ERD 작성
+    - User table, Movie table, Genre table
+    - ![image-20220520142052896](README.assets/image-20220520142052896-16530240555071.png)
   - Figma 작성
+    - https://www.figma.com/file/hSXRPPqkZssuZNqzbXHnuV/Untitled?node-id=0%3A1
+    - ![image-20220520160622413](README.assets/image-20220520160622413-16530303841791.png)
 - 개발
   - 
 - 테스트
+  - 
+
 - 검토
+  - 
 
 
 
