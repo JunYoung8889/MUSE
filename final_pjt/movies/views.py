@@ -16,6 +16,7 @@ from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 import requests
 from django.core.paginator import Paginator
+import math
 
 
 # Create your views here.
@@ -65,13 +66,16 @@ def index(request):
         movies = Movie.objects.all()
     paginator = Paginator(movies, 9)
     page = request.GET.get('page')
+    last_page = str(math.ceil(movies.count()/9))
     posts = paginator.get_page(page)
     context = {
         'IMAGE_URL' : IMAGE_URL,
         'movies' : movies,
         'posts' : posts,
+        'page' : page,
+        'last_page' : last_page,
     }
-    return render(request, 'movies/index.html', context)
+    return render(request, 'movies/index.html', context, )
 
 
 @require_safe
