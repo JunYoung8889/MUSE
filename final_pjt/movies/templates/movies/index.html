@@ -1,17 +1,73 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
-    {% for movie in movies %}
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for movie in posts %}
       <div class="col">
         <div class="card h-100">
           <img src={{ IMAGE_URL }}{{ movie.poster_path }} class="card-img-top h-70" alt="no" style="height:500px">
           <div class="card-body">
             <h5 class="card-title text-center">{{ movie.title }}</h5>
-            <p class="card-text">like detail</p>
+            <p class="card-text"><i class="far fa-heart"></i></p>
+            <a href="{% url 'movies:detail' movie.pk %}" class="btn btn-outline-primary">자세히</a>
           </div>
         </div>
       </div>
     {% endfor %}
+  </div>
+  <div class="container mt-5 d-flex justify-content-center">
+    <nav>
+      <ul class="pagination">
+        {% if page == none or page == "1" %}
+          <li class="page-item disabled">
+        {% else %}
+          <li class="page-item">
+        {% endif %}
+            <a class="page-link" href="{% url 'movies:index' %}?page={{ page|add:-1 }}">Previous</a>
+          </li>
+        {% if page == none or page == "1" %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#">0</a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{% url 'movies:index' %}?page={{ page|add:-1 }}">{{ page|add:-1 }}</a>
+          </li>
+        {% endif %}
+        <li class="page-item active" aria-current="page">
+          {% if page == none %}
+            <span class="page-link">1</span>
+          {% else %}
+            <span class="page-link">{{ page }}</span>
+          {% endif %}
+        </li>
+        {% if page == none %}
+          <li class="page-item">
+            <a class="page-link" href="{% url 'movies:index' %}?page=2">2</a>
+          </li>
+        {% elif page == last_page %}
+          <li class="page-item disabled">
+            <a class="page-link" href="{% url 'movies:index' %}?page={{ page|add:1 }}">{{ page|add:1 }}</a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{% url 'movies:index' %}?page={{ page|add:1 }}">{{ page|add:1 }}</a>
+          </li>
+        {% endif %}
+        {% if page == none %}
+          <li class="page-item">
+            <a class="page-link" href="{% url 'movies:index' %}?page=2">Next</a>
+          </li>
+        {% elif page == last_page %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{% url 'movies:index' %}?page={{ page|add:1 }}">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
   </div>
 {% endblock content %}
