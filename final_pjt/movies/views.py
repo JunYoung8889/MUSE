@@ -15,6 +15,7 @@ from .forms import ReviewForm
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 import requests
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -62,9 +63,13 @@ def index(request):
                 for genre_id in movie['genre_ids']:
                     movie_save.genres.add(genre_id)
         movies = Movie.objects.all()
+    paginator = Paginator(movies, 9)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     context = {
         'IMAGE_URL' : IMAGE_URL,
         'movies' : movies,
+        'posts' : posts,
     }
     return render(request, 'movies/index.html', context)
 

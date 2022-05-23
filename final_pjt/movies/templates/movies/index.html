@@ -1,21 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>INDEX</h1>
-{{ movies.count }}
-{% for movie in movies %}
-  <p>{{ movie }}</p>
-  <p>{{ movie.pk }}</p>
-  <p>{{ movie.id }}</p>
-  <p>{{ movie.title }}</p>
-  <p>{{ movie.release_date }}</p>
-  <p>{{ movie.popularity }}</p>
-  <p>{{ movie.vote_count }}</p>
-  <p>{{ movie.vote_average }}</p>
-  <p>{{ movie.overview }}</p>
-  <p>{{ movie.poster_path }}</p>
-  <p>{{ movie.genres.all }}</p>
-  <p>{{ movie.like_users.all }}</p>
-  <hr>
-{% endfor %}
+  <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+    {% for movie in movies %}
+      <div class="col">
+        <div class="card h-100">
+          <img src={{ IMAGE_URL }}{{ movie.poster_path }} class="card-img-top h-70" alt="no" style="height:500px">
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ movie.title }}</h5>
+            <p class="card-text">like detail</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock content %}

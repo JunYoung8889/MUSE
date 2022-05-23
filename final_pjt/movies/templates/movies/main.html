@@ -8,25 +8,29 @@
     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
   <div class="carousel-inner">
-    <div class="carousel-item active" data-bs-interval="10000">
-      <img src="https://image.ajunews.com/content/image/2017/04/06/20170406080621182603.jpg" class="d-block w-90" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>First slide label</h5>
-        <p>Some representative placeholder content for the first slide.</p>
+    <div class="carousel-item active" data-bs-interval="3000">
+      <img style="height: 700px; opacity: 0.5;" src="http://ojsfile.ohmynews.com/STD_IMG_FILE/2018/0527/IE002339809_STD.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption" style="margin: 250px;">
+        <h1>MUSE</h1>
+        <h5>인기 영화 목록을 알아보세요!</h5>
+        <a href="{% url 'movies:index' %}" class="btn btn-primary">시작하기</a>
       </div>
     </div>
-    <div class="carousel-item" data-bs-interval="2000">
-      <img src="https://upload.wikimedia.org/wikipedia/ko/9/9c/%EC%98%81%ED%99%94_%EC%84%9C%EC%B9%98.jpg" class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Second slide label</h5>
-        <p>Some representative placeholder content for the second slide.</p>
+    <div class="carousel-item" data-bs-interval="3000">
+      <img style="height: 700px; opacity: 0.5" src="https://t1.daumcdn.net/cfile/tistory/264BF9335466C1140E" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block" style="margin: 250px;">
+        <h1>MUSE</h1>
+        <h5>배우 감독 관객</h5>
+        <h5>영화인의 소통공간!</h5>
+        <a href="{% url 'movies:index' %}" class="btn btn-primary">시작하기</a>
       </div>
     </div>
-    <div class="carousel-item">
-      <img src="https://t1.daumcdn.net/cfile/tistory/993902455AC3F32A3D" class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Third slide label</h5>
-        <p>Some representative placeholder content for the third slide.</p>
+    <div class="carousel-item" data-bs-interval="3000">
+      <img style="height: 700px; opacity: 0.5" src="https://img.extmovie.com/files/attach/images/135/583/196/040/ed6a0e1fb60064444b3b7947b7892a8a.jpeg" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block" style="margin: 250px;">
+        <h1>MUSE</h1>
+        <h5>영화 추천을 받아보세요!</h5>
+        <a href="{% url 'movies:index' %}" class="btn btn-primary">시작하기</a>
       </div>
     </div>
   </div>
@@ -38,5 +42,43 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
+</div>
+<div class="container px-4 py-5" id="featured-3">
+  <h2 class="pb-2 border-bottom">Our Service</h2>
+  <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    <div class="feature col">
+      <div class="mb-1">
+        <img src="https://cdn-icons-png.flaticon.com/512/686/686458.png" alt="no" style="width:3em;">
+      </div>
+        
+      <h3>인기 영화 목록</h3>
+      <p>60개의 인기 영화 목록을 제공합니다. 회원가입 후 로그인을 하시면 영화에 좋아요를 누를 수 있고 자신의 프로필 페이지에서 해당 영화를 확인할 수 있는 기능을 제공합니다!</p>
+      <a href="{% url 'movies:index' %}" class="btn btn-info">
+        영화 목록
+      </a>
+    </div>
+    <div class="feature col">
+      <div class="mb-1">
+        <img src="https://cdn-icons.flaticon.com/png/512/2450/premium/2450739.png?token=exp=1653286693~hmac=d392963cd4b41d59eb25adc065f15bea" alt="no" style="width:3em;">
+      </div>
+        
+      <h3>영화인들을 위한 커뮤니티</h3>
+      <p>배우, 감독, 관객 모든 영화인들을 위한 커뮤니티 서비스를 제공합니다! 배우는 스케줄을 구하고, 감독은 배우를 캐스팅하고 관객은 영화에 대한 이야기를 나누는 공간을 제공합니다!</p>
+      <a href="{% url 'movies:index' %}" class="btn btn-info">
+        커뮤니티
+      </a>
+    </div>
+    <div class="feature col">
+      <div class="mb-1">
+        <img src="https://cdn-icons-png.flaticon.com/512/654/654117.png" alt="no" style="width:3em;">
+      </div>
+        
+      <h3>영화 추천 및 검색</h3>
+      <p>저희 DG컴퍼니의 추천 알고리즘을 통해 회원님들에게 영화를 추천해주는 서비스를 제공합니다. 상단의 Search를 통해 영화를 검색하는 기능 또한 제공합니다.</p>
+      <a href="{% url 'movies:index' %}" class="btn btn-info">
+        영화 추천
+      </a>
+    </div>
+  </div>
 </div>
 {% endblock content %}
