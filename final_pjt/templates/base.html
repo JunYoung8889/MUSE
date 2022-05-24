@@ -20,8 +20,9 @@
           <li><a href="{% url 'movies:recommend' %}" class="nav-link px-2 text-white">Recommend</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-white bg-dark" placeholder="Search..." aria-label="Search">
+        <form action="{% url 'movies:search' %}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="POST">
+          {% csrf_token %}
+          <input name="q" type="search" class="form-control form-control-dark text-white bg-dark" placeholder="Search..." aria-label="Search">
         </form>
 
         <div class="text-end">
