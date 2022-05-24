@@ -17,6 +17,7 @@ from django.contrib.auth import get_user_model
 import requests
 from django.core.paginator import Paginator
 import math
+import random
 
 
 # Create your views here.
@@ -132,3 +133,46 @@ def like(request, movie_pk):
         }
         return JsonResponse(context)
     return redirect('accounts:login')
+
+
+def recommend(request):
+    IMAGE_URL = 'https://image.tmdb.org/t/p/original'
+    if request.user.is_authenticated:
+        user = request.user
+        genre_dict = dict()
+        movies = user.like_movies.all()
+        if len(movies) == 0:
+            title = '랜덤'
+            movies = get_list_or_404(Movie)
+            picked_movies = random.sample(movies, 5)
+        else:
+            for movie in movies:
+                genres = movie.genres.all()
+                for genre in genres:
+                    if genre_dict.get(genre.pk) == None:
+                        genre_dict[genre.pk] = 1
+                    else:
+                        genre_dict[genre.pk] += 1
+            max_genre_id = 0
+            max_genre_nums = 0
+            for genre_id in genre_dict:
+                if genre_dict[genre_id] > max_genre_nums:
+                    max_genre_id = genre_id
+                    max_genre_nums = genre_dict[genre_id]
+            genre = Genre.objects.get(pk=max_genre_id)
+            title = genre.name
+            movies = genre.movie_set.all()
+            if len(movies) <= 5:
+                picked_movies = movies
+            else:
+                picked_movies = random.sample(list(movies), 5)
+    else:
+        title = '랜덤'
+        movies = get_list_or_404(Movie)
+        picked_movies = random.sample(movies, 5)
+    context = {
+        'picked_movies' : picked_movies,
+        'IMAGE_URL' : IMAGE_URL,
+        'title' : title,
+    }
+    return render(request, 'movies/recommend.html', context)
