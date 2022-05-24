@@ -153,12 +153,15 @@ def recommend(request):
                         genre_dict[genre.pk] = 1
                     else:
                         genre_dict[genre.pk] += 1
-            max_genre_id = 0
+            max_genre_ids = []
             max_genre_nums = 0
             for genre_id in genre_dict:
                 if genre_dict[genre_id] > max_genre_nums:
-                    max_genre_id = genre_id
+                    max_genre_ids = [genre_id]
                     max_genre_nums = genre_dict[genre_id]
+                elif genre_dict[genre_id] == max_genre_nums:
+                    max_genre_ids.append(genre_id)
+            max_genre_id = random.choice(max_genre_ids)
             genre = Genre.objects.get(pk=max_genre_id)
             title = genre.name
             movies = genre.movie_set.all()
@@ -176,3 +179,35 @@ def recommend(request):
         'title' : title,
     }
     return render(request, 'movies/recommend.html', context)
+
+
+@require_POST
+def search(request):
+    IMAGE_URL = 'https://image.tmdb.org/t/p/original'
+    title = request.POST.get('q')
+    movies = get_list_or_404(Movie)
+    search_movies = []
+    for movie in movies:
+        if title in movie.title:
+            search_movies.append(movie)
+    if search_movies == []:
+        for movie in movies:
+            str1 = title
+            M = len(str1)
+            str2 = movie.title
+            N = len(str2)
+            LCS = [[0]*(M+1)]+[[0]*(M+1) for _ in range(N)]
+            for i in range(N):
+                for j in range(M):
+                    if str2[i] == str1[j]:
+                        LCS[i+1][j+1] = LCS[i][j] + 1
+                    else:
+                        LCS[i+1][j+1] = max(LCS[i][j+1], LCS[i+1][j])
+            if max(map(max, LCS)) > M/2:
+                search_movies.append(movie)
+    context = {
+        'search_movies' : search_movies,
+        'IMAGE_URL' : IMAGE_URL,
+        'title' : title,
+    }
+    return render(request, 'movies/search.html', context)
