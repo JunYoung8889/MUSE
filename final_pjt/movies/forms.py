@@ -6,7 +6,7 @@ class ReviewForm(forms.ModelForm):
     score = forms.FloatField(
         widget=forms.NumberInput(
             attrs={
-                'class': 'my-score form-control',
+                'class': 'my-score',
                 'placeholder': 'Score',
                 'step': 0.5,
                 'min': 0,
@@ -22,7 +22,7 @@ class ReviewForm(forms.ModelForm):
         label='',
         widget=forms.Textarea(
             attrs={
-                'class': 'my-review form-control',
+                'class': 'my-review',
                 'rows': 1,
                 'cols': 40,
                 'placehoder': '한줄평을 작성해주세요!',

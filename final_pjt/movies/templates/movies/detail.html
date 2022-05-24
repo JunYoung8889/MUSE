@@ -2,5 +2,97 @@
 
 {% block content %}
   <h1>DETAIL</h1>
-  <p>{{ movie }}</p>
+  <div class="border border-3 p-2 mb-2">
+    <div class="d-flex position-relative">
+      <img src={{ IMAGE_URL }}{{ movie.poster_path }} class="flex-shrink-0 me-3" alt="no" style="height:500px">
+      <div>
+        <h3 class="mt-0">{{ movie.title }}</h3>
+        <p>개봉일: {{ movie.release_date }}</p>
+        <p>tmdb 평점: {{ movie.vote_average }}</p>
+        <p>tmdb 평가수: {{ movie.vote_count }}</p>
+        <p>장르: {% for genre in movie.genres.all %}
+          {{ genre.name }},
+          {% endfor %}</p>
+        <p>줄거리: {{ movie.overview }}</p>
+      </div>
+    </div>
+    {% if user.is_authenticated %}
+      <form action="{% url 'movies:like' movie.pk %}" method="POST" class="d-inline">
+        {% csrf_token %}
+        {% if user in movie.like_users.all %}
+          <button id='{{ movie.pk }}' class="fas fa-heart btn btn-transparent"></button>
+        {% else %}
+          <button id='{{ movie.pk }}' class="far fa-heart btn btn-transparent"></button>
+        {% endif %}
+      </form>
+    {% else %}
+      <span class="far fa-heart btn btn-transparent"></span>
+    {% endif %}
+      <span id='like_count_{{ movie.pk }}'>{{ movie.like_users.all|length }}</span>
+  </div>
+  <div>
+    <form action="{% url 'movies:reviews_create' movie.pk %}" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit">
+    </form>
+  </div>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td colspan="2">Larry the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>{{ movie.review_set.all }}</p>
+  </div>
 {% endblock content %}
+
+{% block script %}
+  <script>
+    // const formTag = document.querySelector('form')
+    // formTag.setAttribute('action', '')
+    const buttonTag = document.querySelectorAll('button')
+    buttonTag.forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.preventDefault()
+        const moviePk = event.target.getAttribute('id')
+        axios.defaults.xsrfCookieName = 'csrftoken'
+        axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
+        axios.post(`/movies/${ moviePk }/like/`)
+          .then( function (response) {
+            if (response.data.like) {
+              event.target.setAttribute('class', 'fas fa-heart btn btn-transparent')
+            } else {
+              event.target.setAttribute('class', 'far fa-heart btn btn-transparent')
+            }
+            const likeCnt = document.querySelector(`#like_count_${moviePk}`)
+            likeCnt.innerText = `${response.data.count}`
+          })
+      })
+    })
+  </script>
+{% endblock script %}

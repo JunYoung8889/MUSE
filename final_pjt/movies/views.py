@@ -80,9 +80,13 @@ def index(request):
 
 @require_safe
 def detail(request, movie_pk):
+    IMAGE_URL = 'https://image.tmdb.org/t/p/original'
     movie = get_object_or_404(Movie, pk=movie_pk)
+    form = ReviewForm()
     context = {
         'movie' : movie,
+        'IMAGE_URL' : IMAGE_URL,
+        'form' : form,
     }
     return render(request, 'movies/detail.html', context)
 
@@ -114,15 +118,17 @@ def reviews_delete(request, movie_pk, review_pk):
 def like(request, movie_pk):
     if request.user.is_authenticated:
         movie = get_object_or_404(Movie, pk=movie_pk)
-        if request.user in movie.like_users.all():
-            movie.like_users.remove(request.user)
-            liked = False
+        user = request.user
+        
+        if user in movie.like_users.all():
+            movie.like_users.remove(user)
+            like = False
         else:
-            movie.like_users.add(request.user)
-            liked = True
+            movie.like_users.add(user)
+            like = True
         context = {
-            'liked' : liked,
+            'like' : like,
             'count' : movie.like_users.count(),
         }
-        return redirect('movies:detail', movie_pk)
+        return JsonResponse(context)
     return redirect('accounts:login')
