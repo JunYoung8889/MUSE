@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="position-relative mt-1 row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card img-fluid">
+          <img src="https://images.chosun.com/resizer/RAW_xrkxlyEaiDl6JDQHYV5qCAY=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/KWTYRJKDEDIZ666WMYKORSWXHY.jpg" class="card-img-top h-70" alt="no" style="height:400px; opacity: 0.7;">
+          <div class="card-body position-absolute top-50 start-50 translate-middle">
+            <a href="{% url 'community:actor' %}" class="btn btn-light card-title text-center">배우 커뮤니티</a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card img-fluid">
+          <img src="https://file.mk.co.kr/mkde/N0/2020/02/20200214_4391440_1581660031.jpeg" class="card-img-top h-70" alt="no" style="height:400px; opacity: 0.7;">
+          <div class="card-body position-absolute top-50 start-50 translate-middle">
+            <a href="" class="btn btn-light card-title text-center">감독 커뮤니티</a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card img-fluid">
+          <img src="https://us.123rf.com/450wm/stockbroker/stockbroker1702/stockbroker170200929/71235616-%EC%98%81%ED%99%94%EA%B4%80%EC%97%90%EC%84%9C-%EA%B4%80%EA%B0%9D%EB%93%A4-%EA%B3%B5%ED%8F%AC-%EC%98%81%ED%99%94%EB%A5%BC-%EB%B3%B4%EB%8A%94-3d-%EC%95%88%EA%B2%BD-%EC%B0%A9%EC%9A%A9.jpg?ver=6" class="card-img-top h-70" alt="no" style="height:400px; opacity: 0.7;">
+          <div class="card-body position-absolute top-50 start-50 translate-middle">
+            <a href="" class="btn btn-light card-title text-center">일반 커뮤니티</a>
+          </div>
+        </div>
+      </div>
+  </div>
+{% endblock content %}
+
+{% block script %}
+{% endblock script %}
