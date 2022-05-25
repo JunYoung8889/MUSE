@@ -22,7 +22,7 @@
         <h1>MUSE</h1>
         <h5>배우 감독 관객</h5>
         <h5>영화인의 소통공간!</h5>
-        <a href="{% url 'movies:index' %}" class="btn btn-primary">시작하기</a>
+        <a href="{% url 'community:home' %}" class="btn btn-primary">시작하기</a>
       </div>
     </div>
     <div class="carousel-item" data-bs-interval="3000">
@@ -30,7 +30,7 @@
       <div class="carousel-caption d-none d-md-block" style="margin: 250px;">
         <h1>MUSE</h1>
         <h5>영화 추천을 받아보세요!</h5>
-        <a href="{% url 'movies:index' %}" class="btn btn-primary">시작하기</a>
+        <a href="{% url 'movies:recommend' %}" class="btn btn-primary">시작하기</a>
       </div>
     </div>
   </div>
@@ -64,7 +64,7 @@
         
       <h3>영화인들을 위한 커뮤니티</h3>
       <p>배우, 감독, 관객 모든 영화인들을 위한 커뮤니티 서비스를 제공합니다! 배우는 스케줄을 구하고, 감독은 배우를 캐스팅하고 관객은 영화에 대한 이야기를 나누는 공간을 제공합니다!</p>
-      <a href="{% url 'movies:index' %}" class="btn btn-info">
+      <a href="{% url 'community:home' %}" class="btn btn-info">
         커뮤니티
       </a>
     </div>
@@ -75,7 +75,7 @@
         
       <h3>영화 추천 및 검색</h3>
       <p>저희 DG컴퍼니의 추천 알고리즘을 통해 회원님들에게 영화를 추천해주는 서비스를 제공합니다. 상단의 Search를 통해 영화를 검색하는 기능 또한 제공합니다.</p>
-      <a href="{% url 'movies:index' %}" class="btn btn-info">
+      <a href="{% url 'movies:recommend' %}" class="btn btn-info">
         영화 추천
       </a>
     </div>

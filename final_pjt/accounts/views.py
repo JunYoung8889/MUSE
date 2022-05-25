@@ -11,7 +11,13 @@ from django.views.decorators.http import (
     require_POST,
     require_safe,
 )
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import (
+    CustomUserCreationForm,
+    CustomAuthenticationForm,
+    ProfileForm,
+)
+from django.contrib.auth.decorators import login_required
+from .models import Profile
 
 
 # Create your views here.
@@ -78,3 +84,62 @@ def follow(request, user_pk):
             else:
                 person.followers.add(user)
     return redirect('accounts:profile', person.pk)
+
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def create_profile(request, user_pk):
+    person = get_object_or_404(get_user_model(), pk=user_pk) 
+    if request.user == person:
+        if request.method == "POST":
+            form = ProfileForm(request.POST, request.FILES)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+                return redirect('accounts:profile', user_pk)
+        else:
+            form = ProfileForm()
+        context = {
+            'form' : form,
+        }
+        return render(request, 'accounts/create_profile.html', context)
+    else:
+        return redirect('accounts:profile', user_pk)
+
+
+@login_required
+@require_http_methods(['GET', 'POST'])
+def update_profile(request, user_pk, profile_pk):
+    person = get_object_or_404(get_user_model(), pk=user_pk)
+    if request.user == person:
+        profile = Profile.objects.get(pk=profile_pk)
+        if profile == None:
+            return redirect('accounts:create_profile', user_pk)
+        if request.method == "POST":
+            form = ProfileForm(request.POST, request.FILES, instance=profile)
+            if form.is_valid():
+                form.save()
+                return redirect('accounts:profile', user_pk)
+        else:
+            form = ProfileForm(instance=profile)
+        context = {
+            'form' : form,
+            'profile_pk' : profile_pk,
+        }
+        return render(request, 'accounts/update_profile.html', context)
+    else:
+        return redirect('accounts:profile', user_pk)
+
+
+@require_POST
+def delete_profile(request, user_pk, profile_pk):
+    if request.user.is_authenticated:
+        person = get_object_or_404(get_user_model(), pk=user_pk)
+        user = request.user
+        profile = Profile.objects.get(pk=profile_pk)
+        if person == user:
+            profile.delete()
+            return redirect('accounts:profile', user_pk)
+        else:
+            return redirect('accounts:profile', user_pk)

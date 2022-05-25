@@ -1,39 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1 class="mt-3">배우 소통 공간</h1>
+  <div class="mt-1">
+    <h1 class="mt-3" style="display:inline;">배우 소통 공간</h1>
+    <a href="{% url 'community:home' %}" class="mt-3 btn btn-info float-end">BACK</a>
+  </div>
   <div class="bd-example mt-3 border border-3 p-2 mb-2">
     <table class="table table-hover">
       <thead class="table-info">
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          <th scope="col" style="width:50px;">번호</th>
+          <th scope="col" style="width:70px;">아이디</th>
+          <th scope="col" style="width:90px;">내용</th>
+          <th scope="col">제목</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="table-secondary">
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr class="table-secondary">
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
+        {% for article in articles %}
+          {% if forloop.counter|divisibleby:2 %}
+            <tr>
+          {% else %}
+            <tr class="table-secondary">
+          {% endif %}
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ article.user }}</td>
+            <td><a href="{% url 'community:actor_detail' article.pk %}" class="btn btn-info">내용</a></td>
+            <td>{{ article.title }}</td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
-  <a href="" class="btn btn-primary float-end">글작성</a>
+  <a href="{% url 'community:actor_create' user.pk %}" class="btn btn-primary float-end">글작성</a>
 {% endblock content %}
 
 {% block script %}
