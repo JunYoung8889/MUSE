@@ -55,10 +55,23 @@
       <tbody class="table-group-divider">
         {% for review in movie.review_set.all %}
           <tr>
-            <th scope="row">{{ review.pk }}</th>
+            <th scope="row">{{ forloop.counter }}</th>
             <td>{{ review.user }}</td>
             <td>{{ review.score }}</td>
-            <td>{{ review.content }}</td>
+            {% if user == review.user %}
+              <td>
+                {{ review.content }}
+                <div class="float-end">
+                  <a href="{% url 'movies:reviews_update' movie.pk review.pk %}" class="btn btn-warning">수정</a>
+                  <form class="mx-2" action="{% url 'movies:reviews_delete' movie.pk review.pk %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input class="btn btn-danger" type="submit" value="삭제">
+                  </form>
+                </div>
+              </td>
+            {% else %}
+              <td>{{ review.content }}</td>
+            {% endif %}
           </tr>
         {% endfor %}
       </tbody>

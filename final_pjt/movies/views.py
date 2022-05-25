@@ -11,7 +11,7 @@ from django.views.decorators.http import (
 )
 from django.contrib.auth.decorators import login_required
 from .models import Movie, Review, Genre
-from .forms import ReviewForm
+from .forms import ReviewForm, ReviewUpdateForm
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 import requests
@@ -104,6 +104,30 @@ def reviews_create(request, movie_pk):
             review.save()
         return redirect('movies:detail', movie.pk)
     return redirect('accounts:login')
+
+
+@require_http_methods(['GET', 'POST'])
+@login_required
+def reviews_update(request, movie_pk, review_pk):
+    user = request.user
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    review = get_object_or_404(Review, pk=review_pk)
+    if user == review.user:
+        if request.method == 'POST':
+            form = ReviewUpdateForm(request.POST, instance=review)
+            if form.is_valid():
+                form.save()
+                return redirect('movies:detail', movie_pk)
+        else:
+            form = ReviewUpdateForm(instance=review)
+        context = {
+            'form': form,
+            'movie': movie,
+            'review': review,
+        }
+        return render(request, 'movies/reviews_update.html', context)
+    else:
+        return redirect('movies:detail', movie_pk)
 
 
 @require_POST
