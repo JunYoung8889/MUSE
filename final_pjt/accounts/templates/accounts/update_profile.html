@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5 border border-3 p-3 mb-2 w-50">
+    <h1>프로필 수정</h1>
+    <hr>
+    <form action="{% url 'accounts:update_profile' user.pk profile_pk %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="수정">
+    </form>
+    <a href="{% url 'accounts:profile' user.pk %}">취소</a>
+    <a href="{% url 'accounts:update_profile' user.pk profile_pk %}">리셋</a>
+  </div>
+{% endblock content %}

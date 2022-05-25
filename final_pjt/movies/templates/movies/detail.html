@@ -56,7 +56,11 @@
         {% for review in movie.review_set.all %}
           <tr>
             <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ review.user }}</td>
+            <td>
+              <a href="{% url 'accounts:profile' review.user.pk %}">
+                {{ review.user }}
+              </a>
+            </td>
             <td>{{ review.score }}</td>
             {% if user == review.user %}
               <td>
