@@ -8,11 +8,11 @@
   <title>final_pjt</title>
 </head>
 <body>
-  <header class="p-3 bg-dark text-white sticky-top">
+  <header class="p-1 bg-dark text-white sticky-top">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="{% url 'movies:main' %}">
-          <img class="img-fluid mx-3" style="width: 30px;" src="https://www.clipartmax.com/png/full/8-85751_movie-reel-png-movie-clipart-png.png" alt="">
+          <img class="img-fluid mx-3 my-0" style="width: 200px;" src="https://cdn.discordapp.com/attachments/977034636435816468/979261278721806336/MUSE22.png" alt="">
         </a>
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="{% url 'movies:main' %}" class="nav-link px-2 text-white">Home</a></li>
@@ -21,9 +21,10 @@
           <li><a href="{% url 'movies:recommend' %}" class="nav-link px-2 text-white">Recommend</a></li>
         </ul>
 
+
         <form action="{% url 'movies:search' %}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="POST">
           {% csrf_token %}
-          <input name="q" type="search" class="form-control form-control-dark text-white bg-dark" placeholder="Search..." aria-label="Search">
+          <input name="q" type="search" class="form-control form-control-dark text-white bg-dark" placeholder="영화를 입력해주세요." aria-label="Search">
         </form>
 
         <div class="text-end">
