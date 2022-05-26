@@ -16,7 +16,11 @@
         <p>tmdb 평점: {{ movie.vote_average }}</p>
         <p>tmdb 평가수: {{ movie.vote_count }}</p>
         <p>장르: {% for genre in movie.genres.all %}
-          {{ genre.name }},
+          {% if forloop.last %}
+            {{ genre.name }}
+          {% else %}
+            {{ genre.name }},
+          {% endif %}
           {% endfor %}</p>
         <p>줄거리: {{ movie.overview }}</p>
       </div>

@@ -65,9 +65,9 @@ def index(request):
                 for genre_id in movie['genre_ids']:
                     movie_save.genres.add(genre_id)
         movies = Movie.objects.all()
-    paginator = Paginator(movies, 9)
+    paginator = Paginator(movies, 12)
     page = request.GET.get('page')
-    last_page = str(math.ceil(movies.count()/9))
+    last_page = str(math.ceil(movies.count()/12))
     posts = paginator.get_page(page)
     context = {
         'IMAGE_URL' : IMAGE_URL,
@@ -168,7 +168,7 @@ def recommend(request):
         if len(movies) == 0:
             title = '랜덤'
             movies = get_list_or_404(Movie)
-            picked_movies = random.sample(movies, 5)
+            picked_movies = random.sample(movies, 8)
         else:
             for movie in movies:
                 genres = movie.genres.all()
@@ -189,14 +189,14 @@ def recommend(request):
             genre = Genre.objects.get(pk=max_genre_id)
             title = genre.name
             movies = genre.movie_set.all()
-            if len(movies) <= 5:
+            if len(movies) <= 8:
                 picked_movies = movies
             else:
-                picked_movies = random.sample(list(movies), 5)
+                picked_movies = random.sample(list(movies), 8)
     else:
         title = '랜덤'
         movies = get_list_or_404(Movie)
-        picked_movies = random.sample(movies, 5)
+        picked_movies = random.sample(movies, 8)
     context = {
         'picked_movies' : picked_movies,
         'IMAGE_URL' : IMAGE_URL,
@@ -209,6 +209,15 @@ def recommend(request):
 def search(request):
     IMAGE_URL = 'https://image.tmdb.org/t/p/original'
     title = request.POST.get('q')
+    title = title.strip()
+    if title == '':
+        search_movies = []
+        context = {
+            'search_movies' : search_movies,
+            'IMAGE_URL' : IMAGE_URL,
+            'title' : title,
+        }
+        return render(request, 'movies/search.html', context)
     movies = get_list_or_404(Movie)
     search_movies = []
     for movie in movies:

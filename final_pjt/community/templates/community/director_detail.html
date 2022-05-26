@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="d-flex justify-content-end">
-    <a href="{% url 'community:actor' %}" class="mt-3 btn btn-info">BACK</a>
+    <a href="{% url 'community:director' %}" class="mt-3 btn btn-info">BACK</a>
   </div>
   {% for profile in person.profile.all %}
     <div class="border border-3 p-2 mb-2 w-70 mt-3">
@@ -49,8 +49,8 @@
             <td colspan="3">
               {{ article.content }}
               <div class="float-end">
-                <a href="{% url 'community:actor_update' person.pk article.pk %}" class="btn btn-warning">수정</a>
-                <form class="mx-2" action="{% url 'community:actor_delete' person.pk article.pk %}" method="POST" style="display:inline;">
+                <a href="{% url 'community:director_update' person.pk article.pk %}" class="btn btn-warning">수정</a>
+                <form class="mx-2" action="{% url 'community:director_delete' person.pk article.pk %}" method="POST" style="display:inline;">
                   {% csrf_token %}
                   <input class="btn btn-danger" type="submit" value="삭제">
                 </form>
@@ -64,7 +64,7 @@
     </table>
   </div>
   <div class="border border-3 p-2 mb-2">
-    <form action="{% url 'community:actor_comments_create' article.pk %}" method="POST">
+    <form action="{% url 'community:director_comments_create' article.pk %}" method="POST">
       {% csrf_token %}
       {{ form }}
       <input type="submit">
@@ -80,7 +80,7 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        {% for comment in article.actorcomment_set.all %}
+        {% for comment in article.directorcomment_set.all %}
           <tr>
             <th scope="row">{{ forloop.counter }}</th>
             <td>
@@ -92,7 +92,7 @@
               <td>
                 {{ comment.content }}
                 <div class="float-end">
-                  <form class="mx-2" action="{% url 'community:actor_comments_delete' article.pk comment.pk %}" method="POST" style="display:inline;">
+                  <form class="mx-2" action="{% url 'community:director_comments_delete' article.pk comment.pk %}" method="POST" style="display:inline;">
                     {% csrf_token %}
                     <input class="btn btn-danger" type="submit" value="삭제">
                   </form>
